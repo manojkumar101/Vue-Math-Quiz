@@ -26,7 +26,9 @@
     const MODE_ADDITION = 1;
     const MODE_SUBTRACTION = 2;
     export default{
+        props:['question'],
         data() {
+            
             return {
                 question: 'Oops, an error ocurred :/',
                 btnData: [
@@ -38,6 +40,7 @@
             };
         },
         methods: {
+
             generateQuestion() {
                 const firstNumber = this.generateRandomNumber(1, 100);
                 const secondNumber = this.generateRandomNumber(1, 100);
@@ -48,11 +51,11 @@
                 switch (modeNumber) {
                     case MODE_ADDITION:
                         correctAnswer = firstNumber + secondNumber;
-                        this.question = `What's ${firstNumber} + ${secondNumber}?`;
+                        this.question = `Question No. ${this.question+1} : What's   ${firstNumber} + ${secondNumber}?`;
                         break;
                     case MODE_SUBTRACTION:
                         correctAnswer = firstNumber - secondNumber;
-                        this.question = `What's ${firstNumber} - ${secondNumber}?`;
+                        this.question = `Question No. ${this.question+1} :What's   ${firstNumber} - ${secondNumber}?`;
                         break;
                     default:
                         correctAnswer = 0;

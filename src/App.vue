@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <transition name="flip" mode="out-in">
-                    <component :is="mode" @answered="answered($event)" @confirmed="mode = 'app-question'"></component>
+                    <component :is="mode" :counter="counter" :question="next" @answered="answered($event)" @confirmed="mode = 'app-question'"></component>
                 </transition>
             </div>
         </div>
@@ -19,33 +19,58 @@
 <script>
     import Question from './components/Question.vue';
     import Answer from './components/Answer.vue';
-
+    import Score from './components/Score.vue';
     export default {
         data() {
             return {
-                mode: 'app-question'
+                mode: 'app-question',
+                counter:0,
+                next:0
             }
         },
         methods: {
+          reset(){
+                this.counter=0;
+                this.next=0;
+          },
+            check(next){
+                if(next==10)
+                {
+                    
+                  
+                    var ans=this.counter;
+                    alert('Your Score  : '+ ans)
+                    alert('New Quiz')
+                    this.reset();
+                    this.mode='app-question';
+                    return 1;
+                }
+                return 0
+            },
           answered(isCorrect) {
               if (isCorrect) {
+                  this.counter++
+                  this.next++;
+                  if(!this.check(this.next))
                   this.mode = 'app-answer';
               } else {
-                  this.mode = 'app-question';
-                  alert('Wrong, try again!');
+                  this.next++;
+                  if(!this.check(this.next))
+                  this.mode = 'app-score';
               }
           }
         },
         components: {
             appQuestion: Question,
-            appAnswer: Answer
+            appAnswer: Answer,
+            appScore: Score
         }
     }
 </script>
 
 <style>
     .flip-enter {
-        /*transform: rotateY(0deg);*/
+        transform: rotateY(0deg);
     }
 
     .flip-enter-active {
@@ -53,7 +78,7 @@
     }
 
     .flip-leave {
-        /*transform: rotateY(0deg);*/
+        transform: rotateY(0deg);
     }
 
     .flip-leave-active {
